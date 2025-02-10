@@ -57,13 +57,13 @@ func deleteMovie(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	for index, item := range movies {
-		if item.ID == id {
+	for index, movie := range movies {
+		if movie.ID == id {
 			movies = append(movies[:index], movies[index+1:]...)
-			break
+			json.NewEncoder(w).Encode(movies)
+			return
 		}
 	}
-	json.NewEncoder(w).Encode(movies)
 	http.Error(w, "Movie not found", http.StatusNotFound)
 }
 
@@ -77,9 +77,9 @@ func getMovie(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	for _, item := range movies {
-		if item.ID == id {
-			json.NewEncoder(w).Encode(item)
+	for _, movie := range movies {
+		if movie.ID == id {
+			json.NewEncoder(w).Encode(movie)
 			return
 		}
 	}
